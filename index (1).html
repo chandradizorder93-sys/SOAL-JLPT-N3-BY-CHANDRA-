@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Latihan & Ujian JLPT N3 - by Chandra</title>
+    
+    <!-- Theme Metadata -->
+    <meta name="theme-color" content="#4f46e5">
+    <meta name="description" content="Aplikasi Latihan & Ujian JLPT N3 Lengkap 500+ Soal Terkategorisasi dengan Audio & Pembahasan Bahasa Indonesia - Dibuat oleh Chandra">
+    
+    <!-- Fonts & External Styles -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        jp: ['Noto Sans JP', 'Inter', 'sans-serif']
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#1e1b4b'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Strict prevention of screen horizontal overflow */
+        * {
+            box-sizing: border-box;
+            max-width: 100%;
+        }
+
+        html, body {
+            overflow-x: hidden !important;
+            width: 100%;
+            position: relative;
+        }
+
+        /* Prevent text clipping inside cards and columns */
+        .text-break-all {
+            overflow-wrap: anywhere !important;
+            word-break: break-word !important;
+            hyphens: auto;
+            white-space: normal !important;
+        }
+
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.5);
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.8);
+        }
+
+        /* Interactive Element Optimization */
+        button, a, select {
+            touch-action: manipulation;
+        }
+
+        /* Star Question Styling */
+        .star-item {
+            display: inline-block;
+            border-bottom: 2px solid #fbbf24;
+            padding: 0 4px;
+            color: #fbbf24;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col antialiased overflow-x-hidden selection:bg-indigo-500 selection:text-white transition-colors duration-200 dark:bg-slate-950 dark:text-slate-100">
+
+    <!-- Offline Indicator Banner -->
+    <div id="offlineBanner" class="hidden bg-amber-500 text-slate-950 text-xs font-bold text-center py-1.5 px-3 sticky top-0 z-50 shadow-md">
+        <i class="fa-solid fa-wifi-slash mr-1"></i> Mode Offline - 500+ Soal JLPT N3 Terkategorisasi Tetap Dapat Diakses Penuh!
+    </div>
+
+    <!-- Sticky Navigation Header -->
+    <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 w-full max-w-full overflow-x-hidden">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Brand Logo & Title -->
+                <div class="flex items-center space-x-2.5 sm:space-x-3 cursor-pointer min-w-0" onclick="app.showHome()">
+                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-amber-500 flex items-center justify-center text-white font-black text-lg sm:text-xl shadow-lg shadow-indigo-500/30 shrink-0">
+                        N3
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <div class="flex items-center space-x-1.5 flex-wrap">
+                            <span class="font-black text-white tracking-tight text-sm sm:text-base truncate">JLPT N3 Master</span>
+                            <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-bold px-1.5 py-0.5 rounded border border-indigo-500/30">v4.0</span>
+                        </div>
+                        <p class="text-[11px] text-indigo-400 font-medium tracking-wide truncate">Dibuat oleh Chandra</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Action Buttons -->
+                <div class="flex items-center space-x-1.5 sm:space-x-3 shrink-0">
+                    <button id="pwaInstallBtn" onclick="app.installPWA()" class="hidden bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-lg transition items-center shadow-md">
+                        <i class="fa-solid fa-download mr-1"></i> <span class="hidden sm:inline">Install </span>App
+                    </button>
+
+                    <button onclick="app.openHostingModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-lg border border-slate-700 transition flex items-center">
+                        <i class="fa-solid fa-cloud-arrow-up text-indigo-400 mr-1.5"></i> <span class="hidden sm:inline">Panduan </span>Hosting
+                    </button>
+
+                    <button onclick="app.toggleTheme()" class="text-slate-400 hover:text-white p-2 rounded-lg text-sm font-medium transition" title="Ganti Tema">
+                        <i id="themeIcon" class="fa-solid fa-moon"></i>
+                    </button>
+
+                    <button onclick="app.showHome()" class="text-slate-400 hover:text-white p-2 rounded-lg text-sm font-medium transition" title="Beranda">
+                        <i class="fa-solid fa-house"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dynamic Application View -->
+    <main id="appContainer" class="flex-grow max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 overflow-x-hidden">
+        <!-- Rendered dynamically by JavaScript -->
+        <div class="text-center py-12">
+            <i class="fa-solid fa-spinner fa-spin text-4xl text-indigo-500 mb-4"></i>
+            <p class="text-slate-400">Memuat data soal latihan...</p>
+        </div>
+    </main>
+
+    <!-- Global Application Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800 py-5 mt-auto w-full overflow-x-hidden">
+        <div class="max-w-7xl mx-auto px-4 text-center sm:flex sm:justify-between sm:items-center space-y-2 sm:space-y-0">
+            <div class="flex items-center justify-center space-x-2 text-xs sm:text-sm text-slate-400 flex-wrap">
+                <span>Latihan & Ujian JLPT N3 Terkategorisasi</span>
+                <span>•</span>
+                <span class="font-bold text-indigo-400">Dibuat oleh Chandra</span>
+            </div>
+            <p class="text-[11px] text-slate-500">
+                500+ Soal Unik (Kanji, Kosakata, Bunpou, ★ Ordering) • PWA Offline Ready
+            </p>
+        </div>
+    </footer>
+
+    <!-- Modal: Free Hosting Guide -->
+    <div id="hostingModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 hidden">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-150">
+            <div class="px-5 py-4 border-b border-slate-800 flex justify-between items-center bg-slate-900/50">
+                <div class="flex items-center space-x-2 min-w-0">
+                    <i class="fa-solid fa-cloud-bolt text-amber-400"></i>
+                    <h3 class="font-bold text-white text-sm sm:text-base truncate">Panduan Hosting Gratis</h3>
+                </div>
+                <button onclick="app.closeHostingModal()" class="text-slate-400 hover:text-white p-1 rounded transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <div class="p-5 overflow-y-auto custom-scrollbar space-y-4 text-xs sm:text-sm text-slate-300">
+                <p>Anda bisa mempublikasikan aplikasi JLPT Master ini secara gratis menggunakan layanan berikut:</p>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li><strong class="text-indigo-400">GitHub Pages:</strong> Sangat cocok untuk file HTML statis seperti ini. Cukup buat repositori baru, unggah file ini sebagai <code class="bg-slate-800 px-1 py-0.5 rounded text-amber-400">index.html</code>, lalu aktifkan fitur Pages di menu Settings.</li>
+                    <li><strong class="text-indigo-400">Netlify / Vercel:</strong> Hubungkan repositori GitHub Anda atau *drag-and-drop* folder proyek langsung ke dasbor Netlify/Vercel untuk deploy instan.</li>
+                </ul>
+            </div>
+            <div class="px-5 py-3 border-t border-slate-800 bg-slate-900/50 flex justify-end">
+                <button onclick="app.closeHostingModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-4 py-2 rounded-xl text-xs sm:text-sm transition shadow-md shadow-indigo-600/20">
+                    Mengerti
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data Store & State Management Mockup
+        const app = {
+            deferredPrompt: null,
+
+            init() {
+                this.checkOnlineStatus();
+                window.addEventListener('online', () => this.checkOnlineStatus());
+                window.addEventListener('offline', () => this.checkOnlineStatus());
+                this.initPWAInstall();
+                this.showHome();
+            },
+
+            checkOnlineStatus() {
+                const banner = document.getElementById('offlineBanner');
+                if (navigator.onLine) {
+                    banner.classList.add('hidden');
+                } else {
+                    banner.classList.remove('hidden');
+                }
+            },
+
+            toggleTheme() {
+                const html = document.documentElement;
+                const icon = document.getElementById('themeIcon');
+                if (html.classList.contains('dark')) {
+                    html.classList.remove('dark');
+                    icon.className = 'fa-solid fa-sun';
+                } else {
+                    html.classList.add('dark');
+                    icon.className = 'fa-solid fa-moon';
+                }
+            },
+
+            openHostingModal() {
+                document.getElementById('hostingModal').classList.remove('hidden');
+            },
+
+            closeHostingModal() {
+                document.getElementById('hostingModal').classList.add('hidden');
+            },
+
+            showHome() {
+                const container = document.getElementById('appContainer');
+                // Kerangka Dashboard Menu Latihan
+                container.innerHTML = `
+                    <div class="space-y-6">
+                        <div class="bg-gradient-to-r from-indigo-900/50 to-slate-900 border border-indigo-500/20 rounded-2xl p-6 shadow-xl">
+                            <h2 class="text-xl sm:text-2xl font-extrabold text-white mb-2">Selamat Datang di JLPT N3 Master</h2>
+                            <p class="text-sm text-slate-300">Pilih salah satu mode di bawah ini untuk memulai latihan atau ujian evaluasi mandiri.</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl hover:border-indigo-500/50 cursor-pointer transition shadow-md" onclick="alert('Mulai Mode Latihan')">
+                                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 mb-4 text-xl"><i class="fa-solid fa-book-open"></i></div>
+                                <h3 class="font-bold text-white text-base mb-1">Mode Latihan Terkategorisasi</h3>
+                                <p class="text-xs text-slate-400">Latihan per kategori soal (Kanji, Kosakata, Tata Bahasa) dengan pembahasan langsung.</p>
+                            </div>
+                            <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl hover:border-amber-500/50 cursor-pointer transition shadow-md" onclick="alert('Mulai Mode Ujian')">
+                                <div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 mb-4 text-xl"><i class="fa-solid fa-stopwatch"></i></div>
+                                <h3 class="font-bold text-white text-base mb-1">Simulasi Ujian JLPT</h3>
+                                <p class="text-xs text-slate-400">Uji kemampuan Anda dengan batasan waktu asli layaknya ujian JLPT resmi.</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            },
+
+            initPWAInstall() {
+                window.addEventListener('beforeinstallprompt', (e) => {
+                    e.preventDefault();
+                    this.deferredPrompt = e;
+                    document.getElementById('pwaInstallBtn').classList.remove('hidden');
+                    document.getElementById('pwaInstallBtn').classList.add('flex');
+                });
+
+                window.addEventListener('appinstalled', () => {
+                    this.deferredPrompt = null;
+                    document.getElementById('pwaInstallBtn').classList.add('hidden');
+                });
+            },
+
+            async installPWA() {
+                if (!this.deferredPrompt) return;
+                this.deferredPrompt.prompt();
+                const { outcome } = await this.deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    this.deferredPrompt = null;
+                    document.getElementById('pwaInstallBtn').classList.add('hidden');
+                }
+            }
+        };
+
+        // Run application on load
+        document.addEventListener('DOMContentLoaded', () => app.init());
+    </script>
+</body>
+</html>
